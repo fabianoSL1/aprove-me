@@ -14,7 +14,7 @@ import { CreatePayableDTO } from './dtos/create-payable.dto';
 import { Response } from 'express';
 import { UpdatePayableDTO } from './dtos/update-payable.dto';
 
-@Controller('payable')
+@Controller()
 export class PayableController {
     constructor(private readonly payableService: PayableService) {}
 
