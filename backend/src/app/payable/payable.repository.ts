@@ -11,47 +11,58 @@ export class PayableRepository {
 
     async create(createPayable: CreatePayableDTO): Promise<Payable> {
         const { assignor, ...payable } = createPayable;
+        
+        const assignorPayload = this.assignorPayload(assignor);
+        
 
         return await this.prisma.payable.create({
             data: {
                 ...payable,
-                assignor: {
-                    connectOrCreate: {
-                        where: {
-                            id: assignor as string,
-                        },
-                        create: assignor as AssignorDTO,
-                    },
-                },
+                emissionDate: payable.emissionDate,
+                assignor: assignorPayload,
             },
         });
     }
 
-    async update(
-        payableId: string,
-        updatePayable: UpdatePayableDTO,
-    ): Promise<Payable> {
+    private assignorPayload(assignor: string | AssignorDTO) {
+        let payload: Record<string, unknown> = {
+            create: assignor
+        }
+
+        if (typeof assignor === 'string') {
+            payload = {
+                connect: {
+                    id: assignor
+                }
+            }    
+        }
+        
+        return payload;
+    }
+
+    async update(payableId: string, updatePayable: UpdatePayableDTO): Promise<Payable> {
         return await this.prisma.payable.update({
             data: updatePayable,
             where: {
-                id: payableId,
-            },
-        });
+                id: payableId
+            }
+        })
     }
 
     async find(payableId: string): Promise<Payable> {
         return await this.prisma.payable.findFirst({
             where: {
-                id: payableId,
-            },
-        });
+                id: payableId
+            }
+        })
     }
 
     async destroy(payableId: string): Promise<Payable> {
         return await this.prisma.payable.delete({
             where: {
-                id: payableId,
-            },
-        });
+                id: payableId
+            }
+        })
     }
+
 }

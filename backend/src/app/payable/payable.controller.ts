@@ -1,3 +1,5 @@
+import { Response } from 'express';
+
 import {
     Body,
     Controller,
@@ -11,7 +13,6 @@ import {
 } from '@nestjs/common';
 import { PayableService } from './payable.service';
 import { CreatePayableDTO } from './dtos/create-payable.dto';
-import { Response } from 'express';
 import { UpdatePayableDTO } from './dtos/update-payable.dto';
 
 @Controller()
@@ -23,7 +24,7 @@ export class PayableController {
         @Body() createPayable: CreatePayableDTO,
         @Res() response: Response,
     ) {
-        const payable = await this.payableService.create(createPayable);
+        const payable = await this.payableService.create(createPayable); 
         response.status(HttpStatus.CREATED).json(payable);
     }
 
