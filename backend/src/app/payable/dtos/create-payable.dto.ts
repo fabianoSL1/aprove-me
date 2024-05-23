@@ -1,13 +1,12 @@
-import { IsDate, IsNotEmpty, IsNumber } from 'class-validator';
-import { AssignorDTO } from 'src/app/assignor/dtos/assignor.dto';
+import { assignorDtoSchema } from 'src/app/assignor/dtos/assignor.dto';
+import { z } from 'zod';
 
-export class CreatePayableDTO {
-    @IsNumber()
-    value: number;
+export const createPayableDtoSchema = z
+    .object({
+        value: z.number().min(0),
+        emissionDate: z.string().datetime(),
+        assignor: z.string().or(assignorDtoSchema),
+    })
+    .required();
 
-    @IsDate()
-    emissionDate: Date;
-
-    @IsNotEmpty()
-    assignor: AssignorDTO | string;
-}
+export type CreatePayableDTO = z.infer<typeof createPayableDtoSchema>;

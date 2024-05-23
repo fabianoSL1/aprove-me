@@ -1,19 +1,12 @@
-import { IsEmail, IsNotEmpty, MaxLength } from 'class-validator';
+import { z } from 'zod';
 
-export class AssignorDTO {
-    @IsNotEmpty()
-    @MaxLength(30, { message: 'max 30 caracters' })
-    document: string;
+export const assignorDtoSchema = z
+    .object({
+        document: z.string().max(30),
+        email: z.string().email().max(140),
+        phone: z.string().max(30),
+        name: z.string().max(140),
+    })
+    .required();
 
-    @IsEmail()
-    @MaxLength(140, { message: 'max 140 caracters' })
-    email: string;
-
-    @IsNotEmpty()
-    @MaxLength(30, { message: 'max 30 caracters' })
-    phone: string;
-
-    @IsNotEmpty()
-    @MaxLength(140, { message: 'max 140 caracters' })
-    name: string;
-}
+export type AssignorDTO = z.infer<typeof assignorDtoSchema>;

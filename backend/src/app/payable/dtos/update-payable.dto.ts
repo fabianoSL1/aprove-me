@@ -1,12 +1,10 @@
-import { IsDate, IsNotEmpty, IsNumber } from 'class-validator';
+import { z } from 'zod';
 
-export class UpdatePayableDTO {
-    @IsNumber()
-    value: number;
+export const updatePayableDtoSchema = z
+    .object({
+        value: z.number().min(0),
+        emissionDate: z.string().datetime()
+    })
+    .required();
 
-    @IsDate()
-    emissionDate: Date;
-
-    @IsNotEmpty()
-    assignorId: string;
-}
+export type UpdatePayableDTO = z.infer<typeof updatePayableDtoSchema>;

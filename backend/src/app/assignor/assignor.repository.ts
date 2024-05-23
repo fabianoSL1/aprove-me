@@ -11,7 +11,7 @@ export class AssignorRepository {
         return await this.prisma.assignor.create({ data: createAssignor });
     }
 
-    async findById(assignorId: string): Promise<Assignor> {
+    async findById(assignorId: string): Promise<Assignor|null> {
         return await this.prisma.assignor.findFirst({
             where: { id: assignorId },
         });

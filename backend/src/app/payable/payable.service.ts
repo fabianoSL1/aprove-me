@@ -13,7 +13,7 @@ export class PayableService {
     }
 
     async find(payableId: string) {
-        return await this.payableRepository.find(payableId);
+        return await this.payableRepository.findById(payableId);
     }
 
     async update(payableId: string, payable: UpdatePayableDTO) {

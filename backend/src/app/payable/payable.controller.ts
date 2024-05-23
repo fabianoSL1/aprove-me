@@ -10,12 +10,15 @@ import {
     Post,
     Put,
     Res,
+    UsePipes,
 } from '@nestjs/common';
 import { PayableService } from './payable.service';
-import { CreatePayableDTO } from './dtos/create-payable.dto';
+import { CreatePayableDTO, createPayableDtoSchema } from './dtos/create-payable.dto';
 import { UpdatePayableDTO } from './dtos/update-payable.dto';
+import { ZodValidationPipe } from 'src/zod-validation/zod-validation.pipe';
 
 @Controller()
+@UsePipes(new ZodValidationPipe(createPayableDtoSchema))
 export class PayableController {
     constructor(private readonly payableService: PayableService) {}
 
